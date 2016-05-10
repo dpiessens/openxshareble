@@ -97,4 +97,6 @@ class Share2UART (OriginalUART):
     return str(spool[:size])
   def pop (self, timeout_sec=None):
     return super(Share2UART, self).read(timeout_sec=timeout_sec)
-    
+
+class UART (Share2UART):
+  pass
