@@ -12,7 +12,7 @@ log = logging.getLogger(__name__)
 class App (object):
   """ A high level application object.
 
-  Any application needing to talk to Dexcom G4 + Share will need
+  Any application needing to talk to Dexcom G5 will need
   to perform operations to setup the ble data transport.  This class
   mixes the UART, ble code, and provides helpful prolog and epilog
   routines that run before and after main, respectively.

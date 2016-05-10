@@ -11,15 +11,14 @@ class Share2UART (OriginalUART):
   SERVICES = [Attrs.CGMService]
   CHARACTERISTICS = [Attrs.Authentication, Attrs.Control, Attrs.Communication ]
 
-  HEARTBEAT_UUID = Attrs.HeartBeat2
-  # UART_SERVICE_UUID = Attrs.CradleService2
-  UART_SERVICE_UUID = Attrs.VENDOR_UUID
-  TX_CHAR_UUID = Attrs.ShareMessageReceiver2
-  RX_CHAR_UUID = Attrs.ShareMessageResponse2
-  SendDataUUID = Attrs.ShareMessageReceiver2
-  RcveDataUUID = Attrs.ShareMessageResponse2
-  CommandUUID  = Attrs.Command2
-  ResponseUUID = Attrs.Response2
+  HEARTBEAT_UUID = Attrs.ProbablyBackfill
+  UART_SERVICE_UUID = Attrs.CGMService
+  TX_CHAR_UUID = Attrs.CharacteristicE
+  RX_CHAR_UUID = Attrs.CharacteristicF
+  SendDataUUID = Attrs.CharacteristicE
+  RcveDataUUID = Attrs.CharacteristicF
+  CommandUUID  = Attrs.Control
+  ResponseUUID = Attrs.Communication
   AUTH_UUID    = Attrs.Authentication
   def __init__(self, device, **kwds):
       """Initialize UART from provided bluez device."""
