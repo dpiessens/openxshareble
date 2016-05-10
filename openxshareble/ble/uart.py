@@ -6,24 +6,9 @@ import uuid
 import time
 from attrs import Attrs
 
-class ShareUART (OriginalUART):
-  ADVERTISED = [Attrs.CradleService]
-  # SERVICES = [Attrs.DeviceService]
-  SERVICES = [Attrs.CradleService]
-  CHARACTERISTICS = [Attrs.AuthenticationCode, Attrs.Command, Attrs.Response, Attrs.ShareMessageReceiver, Attrs.ShareMessageResponse, Attrs.HeartBeat, Attrs.DeviceService, Attrs.PowerLevel]
-
-  UART_SERVICE_UUID = Attrs.CradleService
-  TX_CHAR_UUID = Attrs.Command
-  RX_CHAR_UUID = Attrs.Response
-  pass
 class Share2UART (OriginalUART):
-  # ADVERTISED = [Attrs.CradleService2]
-  # ADVERTISED = [Attrs.VENDOR_UUID]
-  ADVERTISED = [Attrs.VENDOR_UUID]
-  # SERVICES = [Attrs.DeviceService]
-  # SERVICES = [Attrs.CradleService2, Attrs.VENDOR_UUID]
-  SERVICES = [Attrs.VENDOR_UUID, Attrs.DeviceService]
-  # CHARACTERISTICS = [Attrs.AuthenticationCode2, Attrs.Command2, Attrs.Response2, Attrs.ShareMessageReceiver2, Attrs.ShareMessageResponse2, Attrs.HeartBeat2, Attrs.DeviceService, Attrs.PowerLevel]
+  ADVERTISED = [Attrs.Advertised]
+  SERVICES = [Attrs.CGMService]
   CHARACTERISTICS = [ ]
 
   HEARTBEAT_UUID = Attrs.HeartBeat2
@@ -113,19 +98,4 @@ class Share2UART (OriginalUART):
     return str(spool[:size])
   def pop (self, timeout_sec=None):
     return super(Share2UART, self).read(timeout_sec=timeout_sec)
-
-class BothShare (ShareUART):
-  ADVERTISED = ShareUART.ADVERTISED + Share2UART.ADVERTISED
-  # SERVICES = [Attrs.DeviceService]
-  SERVICES =  ShareUART.SERVICES + Share2UART.SERVICES
-  CHARACTERISTICS =  ShareUART.SERVICES + Share2UART.SERVICES
-  
-
-  UART_SERVICE_UUID = Attrs.CradleService2
-  TX_CHAR_UUID = Attrs.Command2
-  RX_CHAR_UUID = Attrs.Response2
-  pass
-
-class UART (Share2UART):
-  pass
-
+    

@@ -2,28 +2,25 @@
 import uuid
 
 class Attrs:
-    CradleService = uuid.UUID("F0ABA0B1-EBFA-F96F-28DA-076C35A521DB");
+    DeviceInfo = uuid.UUID("0000180A-0000-1000-8000-00805F9B34FB");
+    # iOS uses FEBC?
+    Advertisement = uuid.UUID("0000FEBC-0000-1000-8000-00805F9B34FB");
+    CGMService = uuid.UUID("F8083532-849E-531C-C594-30F1F86A4EA5");
+    ServiceB = uuid.UUID("F8084532-849E-531C-C594-30F1F86A4EA5");
 
-    # Share Characteristic Strings
-    AuthenticationCode  = uuid.UUID("F0ABACAC-EBFA-F96F-28DA-076C35A521DB");
-    ShareMessageReceiver = uuid.UUID("F0ABB20A-EBFA-F96F-28DA-076C35A521DB"); #  Max 20 Bytes - Writable
-    ShareMessageResponse = uuid.UUID("F0ABB20B-EBFA-F96F-28DA-076C35A521DB"); #  Max 20 Bytes
-    Command = uuid.UUID("F0ABB0CC-EBFA-F96F-28DA-076C35A521DB");
-    Response = uuid.UUID("F0ABB0CD-EBFA-F96F-28DA-076C35A521DB"); #  Writable?
-    HeartBeat = uuid.UUID("F0AB2B18-EBFA-F96F-28DA-076C35A521DB");
+    # DeviceInfoCharacteristicUUID, Read, DexcomUN
+    ManufacturerNameString = uuid.UUID("00002A29-0000-1000-8000-00805F9B34FB");
 
-    # Possible new uuids????  60bfxxxx-60b0-4d4f-0000-000160c48d70
-    CradleService2 = uuid.UUID("F0ACA0B1-EBFA-F96F-28DA-076C35A521DB");
-    AuthenticationCode2  = uuid.UUID("F0ACACAC-EBFA-F96F-28DA-076C35A521DB"); #  read, write
-    ShareMessageReceiver2 = uuid.UUID("F0ACB20A-EBFA-F96F-28DA-076C35A521DB"); #  read, write
-    ShareMessageResponse2 = uuid.UUID("F0ACB20B-EBFA-F96F-28DA-076C35A521DB"); #  indicate, read
-    Command2 = uuid.UUID("F0ACB0CC-EBFA-F96F-28DA-076C35A521DB"); #  read, write
-    Response2 = uuid.UUID("F0ACB0CD-EBFA-F96F-28DA-076C35A521DB"); #  indicate, read, write
-    HeartBeat2 = uuid.UUID("F0AC2B18-EBFA-F96F-28DA-076C35A521DB"); #  notify, read
+    # CGMServiceCharacteristicUUID
+    Communication = uuid.UUID("F8083533-849E-531C-C594-30F1F86A4EA5");
+    Control = uuid.UUID("F8083534-849E-531C-C594-30F1F86A4EA5");
+    Authentication = uuid.UUID("F8083535-849E-531C-C594-30F1F86A4EA5");
+    ProbablyBackfill = uuid.UUID("F8083536-849E-531C-C594-30F1F86A4EA5");
 
-    # Device Info
-    DeviceService = uuid.UUID("00001804-0000-1000-8000-00805f9b34fb");
-    PowerLevel = uuid.UUID("00002a07-0000-1000-8000-00805f9b34fb");
+    # ServiceBCharacteristicUUID
+    CharacteristicE = uuid.UUID("F8084533-849E-531C-C594-30F1F86A4EA5");
+    CharacteristicF = uuid.UUID("F8084534-849E-531C-C594-30F1F86A4EA5");
 
-    VENDOR_UUID = uuid.UUID("F0ACA0B1-EBFA-F96F-28DA-076C35A521DB")
+    # CharacteristicDescriptorUUID
+    CharacteristicUpdateNotification = uuid.UUID("00002902-0000-1000-8000-00805F9B34FB")
 
