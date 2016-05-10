@@ -7,9 +7,9 @@ import time
 from attrs import Attrs
 
 class Share2UART (OriginalUART):
-  ADVERTISED = [Attrs.Advertised]
+  ADVERTISED = [Attrs.Advertisement]
   SERVICES = [Attrs.CGMService]
-  CHARACTERISTICS = [ ]
+  CHARACTERISTICS = [Attrs.Authentication, Attrs.Control, Attrs.Communication ]
 
   HEARTBEAT_UUID = Attrs.HeartBeat2
   # UART_SERVICE_UUID = Attrs.CradleService2
@@ -20,7 +20,7 @@ class Share2UART (OriginalUART):
   RcveDataUUID = Attrs.ShareMessageResponse2
   CommandUUID  = Attrs.Command2
   ResponseUUID = Attrs.Response2
-  AUTH_UUID    = Attrs.AuthenticationCode2
+  AUTH_UUID    = Attrs.Authentication
   def __init__(self, device, **kwds):
       """Initialize UART from provided bluez device."""
       # Find the UART service and characteristics associated with the device.
