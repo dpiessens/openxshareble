@@ -110,7 +110,7 @@ class App (object):
     for device in self.enumerate_dexcoms(**kwds):
       if str(device.id) == mac:
         return device
-  def enumerate_dexcoms (self, timeout_secs=10):
+  def enumerate_dexcoms (self, timeout_secs=50):
     self.adapter.start_scan()
     # Use atexit.register to call the adapter stop_scan function before quiting.
     # This is good practice for calling cleanup code in this main function as
