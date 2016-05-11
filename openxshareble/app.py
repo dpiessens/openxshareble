@@ -129,10 +129,7 @@ class App (object):
         # their name and ID (MAC address on Linux, GUID on OSX).
         new = found - known_uarts
         for device in new:
-            print dir(device)
-            for property, value in inspect.getmembers(device):
-              print('UART {0}: {1}'.format(property, value))
-              #log.info('Found UART: {0} [{1}]'.format(device.name, device.id))
+            log.info('Found UART: {0} [{1}]'.format(device.id, device))
         known_uarts.update(new)
         # Sleep for a second and see if new devices have appeared.
         time.sleep(1.0)
