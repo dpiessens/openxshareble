@@ -30,7 +30,7 @@ class Share2UART (OriginalUART):
       self.serial = kwds.pop('SERIAL', None)
       print "paired?", r
       if not r:
-        print "pairing..."
+        print "pairing ", device.id, "..."
         # help(device._device)
         # help(device._device.Pair)
         device.pair( )
