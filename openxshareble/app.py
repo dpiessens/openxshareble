@@ -130,7 +130,7 @@ class App (object):
         new = found - known_uarts
         for device in new:
             for property, value in vars(device).iteritems():
-              log.info('UART {0}: {1}'.format(property, value))
+              print('UART {0}: {1}'.format(property, value))
               #log.info('Found UART: {0} [{1}]'.format(device.name, device.id))
         known_uarts.update(new)
         # Sleep for a second and see if new devices have appeared.
