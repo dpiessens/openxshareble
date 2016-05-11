@@ -155,7 +155,7 @@ class list_dexcom (BLEUsage):
     receivers = self.enumerate_dexcoms( )
     results = [ ]
     for device in receivers:
-      results.append(dict(name=str(device.id)
+      results.append(dict(name=str(self.parse_device_name(device))
         , mac=str(device.id)
         , advertised=map(str, device.advertised)))
     return results

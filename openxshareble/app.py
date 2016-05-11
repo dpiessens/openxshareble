@@ -105,7 +105,7 @@ class App (object):
     try:
       return device.name
     except:
-      return "Unknown"
+      return device.id
   def select_mac (self, mac=None, **kwds):
     for device in self.enumerate_dexcoms(**kwds):
       if str(device.id) == mac:
