@@ -101,7 +101,7 @@ class App (object):
     log.info(self.remote.advertised)
 
     pass
-  def parse_device_name(device):
+  def parse_device_name(self, device):
     try:
       return device.name
     except:
