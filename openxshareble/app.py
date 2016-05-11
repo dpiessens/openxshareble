@@ -101,6 +101,11 @@ class App (object):
     log.info(self.remote.advertised)
 
     pass
+  def parse_device_name(device):
+    try:
+      return device.name
+    except:
+      return "Unknown"
   def select_mac (self, mac=None, **kwds):
     for device in self.enumerate_dexcoms(**kwds):
       if str(device.id) == mac:
@@ -129,7 +134,7 @@ class App (object):
         # their name and ID (MAC address on Linux, GUID on OSX).
         new = found - known_uarts
         for device in new:
-            print('Found UART: {0} [{1}]'.format(device.id, device))
+            print('Found UART: {0} [{1}]'.format(device.id, self.parse_device_name(device))
             log.info('Found UART: {0} [{1}]'.format(device.id, device))
         known_uarts.update(new)
         # Sleep for a second and see if new devices have appeared.
