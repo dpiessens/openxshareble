@@ -5,6 +5,8 @@ import Queue
 import uuid
 import time
 from attrs import Attrs
+from Crypto.Cipher import AES
+from pkcs7 import PKCS7Encoder
 
 class Share2UART (OriginalUART):
   ADVERTISED = [Attrs.Advertisement]
@@ -56,8 +58,17 @@ class Share2UART (OriginalUART):
       self._auth = self._uart.find_characteristic(self.AUTH_UUID)
       print self._auth
       # self._auth.
-      msg = bytearray(serial + "000000")
+      msg = bytearray("00" + serial + "00" + serial)
       self._auth.write_value(str(msg))
+  def calculate_hash(data):
+      secret_text = bytearray(data + data)
+      key = bytearray("00" + serial + "00" + serial)
+      iv = '\x00' * 16
+
+      encoder = PKCS7Encoder()
+      padded_text = encoder.encode(secret_text)
+      e = AES.new(key, AES.MODE_EBC, iv)
+      return e.encrypt(padded_text)
   def setup_dexcom_heartbeat (self):
     self._heartbeat = self._uart.find_characteristic(self.HEARTBEAT_UUID)
   def do_heartbeat (self):
