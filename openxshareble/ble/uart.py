@@ -51,15 +51,6 @@ class Share2UART (OriginalUART):
   def set_serial (self, SERIAL):
     self.serial = SERIAL
   
-  def pair_auth_code (self, serial):
-      print "sending auth code", serial
-      self._auth = self._uart.find_characteristic(self.AuthUUID)
-      print self._auth
-      # self._auth get current challenge
-      self._auth.
-      msg = TxMessages().auth_challenge_tx_message()
-      self._auth.write_value(str(msg))
-  
   def _auth_received (self, data):
     print "Auth Challenge Data: {0}".format(data)
     authRxChallenge = authChallengeRxMsg(data)
