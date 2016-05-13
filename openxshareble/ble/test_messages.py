@@ -34,6 +34,13 @@ class TestTxMessages(unittest.TestCase):
         self.assertEqual(len(result), 2)
         self.assertEqual(result[0], 0x6)
         self.assertEqual(result[1], 25)
+    
+    def test_match_ids(self):
+        result = TxMessages().match_ids("68:94:23:EB:F6:2D", "401F2D")
+        self.assertTrue(result)
+        
+        resultNoMatch = TxMessages().match_ids("68:94:23:EB:F6:2D", "401F1F")
+        self.assertFalse(resultNoMatch)
         
     def test_time_tx_message(self):
         result = TxMessages().time_tx_message()

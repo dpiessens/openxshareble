@@ -64,7 +64,7 @@ class BLEUsage (Use, app.App):
     serial = self.device.get('serial', None)
     mac = self.device.get('mac', None)
     # run prolog/setup
-    self.prolog(mac=mac)
+    self.prolog(mac=mac, serial=serial)
     # setup dexcom in particular, with configured serial number
     self.setup_dexcom(serial=serial)
   def after_main (self, args, app):

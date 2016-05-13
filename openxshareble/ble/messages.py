@@ -36,6 +36,11 @@ class TxMessages():
         # Assign opcode.
         arr.insert(0, opcode)
         return arr
+       
+    def match_ids(self, deviceId, serial):
+        lastId = deviceId[-2:].upper()
+        lastSerial = serial[-2:].upper()
+        return lastId == lastSerial
         
     def calc_crc_array(self, b):
         crcShort = 0

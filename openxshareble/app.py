@@ -54,7 +54,7 @@ class App (object):
         # Make sure device is disconnected on exit.
         if self.disconnect_on_after:
           self.remote.disconnect()
-  def prolog (self, clear_cached_data=True, disconnect_devices=True, scan_devices=True, connect=True, mac=None):
+  def prolog (self, clear_cached_data=True, disconnect_devices=True, scan_devices=True, connect=True, mac=None, serial=None):
     """
     Things to do before running the main part of the application.
     """
@@ -75,7 +75,7 @@ class App (object):
       log.info('Searching for UART device...')
       try:
           if mac:
-            self.remote = self.select_mac(mac=mac)
+            self.remote = self.select_mac(mac=mac, serial=serial)
           else:
             self.adapter.start_scan()
             # Search for the first UART device found (will time out after 60 seconds
@@ -106,10 +106,17 @@ class App (object):
       return device.name
     except:
       return device.id
-  def select_mac (self, mac=None, **kwds):
+  def select_mac (self, mac=None, serial=None, **kwds):
     for device in self.enumerate_dexcoms(**kwds):
-      if str(device.id) == mac:
+      deviceStr = str(device.id)
+      if (deviceStr == mac) or (self.match_ids(deviceStr, serial)):
         return device
+        
+  def match_ids(self, deviceId, serial):
+        lastId = deviceId[-2:].upper()
+        lastSerial = serial[-2:].upper()
+        return lastId == lastSerial
+        
   def enumerate_dexcoms (self, timeout_secs=20):
     self.adapter.start_scan()
     # Use atexit.register to call the adapter stop_scan function before quiting.
