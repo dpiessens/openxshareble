@@ -5,6 +5,12 @@ import Queue
 import uuid
 import time
 from attrs import Attrs
+from messages import TxMessages
+from messages import batteryMsg
+from messages import authRxMsg
+from messages import authChallengeRxMsg
+from messages import transRxMsg
+from messages import sensorRxMsg 
 
 class Share2UART (OriginalUART):
   ADVERTISED = [Attrs.Advertisement]
@@ -33,7 +39,6 @@ class Share2UART (OriginalUART):
         print "finding service"
         self._uart = device.find_service(self.UART_SERVICE_UUID)
         print "SERVICE", self._uart
-        self.pair_auth_code(self.serial)
       for svc in device.list_services( ):
         print svc.uuid, svc.uuid == self.UART_SERVICE_UUID, svc, svc._service
         print "CHARACTERISTICS"
@@ -50,16 +55,30 @@ class Share2UART (OriginalUART):
       print "sending auth code", serial
       self._auth = self._uart.find_characteristic(self.AuthUUID)
       print self._auth
-      # self._auth.
-      msg = self._auth.
+      # self._auth get current challenge
+      self._auth.
+      msg = TxMessages().auth_challenge_tx_message()
       self._auth.write_value(str(msg))
+  
+  def _auth_received (self, data):
+    print "Auth Challenge Data: {0}".format(data)
+    authRxChallenge = authChallengeRxMsg(data)
+    print "Auth Challenge: {0}".format(authRxChallenge.challenge)
+    authTxChallenge = TxMessages().auth_challenge_tx_message(authRxChallenge.challenge, self.serial)
+    print "Auth Transmit Challenge: ", authTxChallenge
+    self._auth.write_value(authTxChallenge)
     
   def setup_dexcom (self):
     self.remainder = bytearray( )
     self._auth = self._uart.find_characteristic(self.AuthUUID)
-    self._rx = self._uart.find_characteristic(self.RX_CHAR_UUID)
+    self._rx = self._uart.find_characteristic(self.CommunicationUUID)
     # Use a queue to pass data received from the RX property change back to
     # the main thread in a thread-safe way.
+    if self._auth.notifying:
+      self._auth.stop_notify( )
+    if not self._auth.notifying:
+      self._auth.start_notify(self._auth_received)
+    
     if self._rx.notifying:
       self._rx.stop_notify( )
     if not self._rx.notifying:
