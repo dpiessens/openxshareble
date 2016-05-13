@@ -51,7 +51,6 @@ class TxMessages():
       key = b"00{0}00{0}".format(serial)
       
       e = AES.new(key, AES.MODE_ECB)
-      print key
       return e.encrypt(buffer(secret_text))
 
 class batteryMsg():
