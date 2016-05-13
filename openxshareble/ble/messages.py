@@ -1,31 +1,34 @@
+import random
+from Crypto.Cipher import AES
 
+class TxMessages():
 
-class messages():
-    def auth_challenge_tx_message(challenge):
+    def auth_challenge_tx_message(self, challenge, transmitterId):
+        hash = self.calculate_hash(challenge, transmitterId)
         return self.append_opcode(0x4, challenge)
     
-    def auth_request_tx_message():
-        token = sys.random(8)
-        data = self.append_opcode(0x2, token)
+    def auth_request_tx_message(self):
+        token = bytearray(random.getrandbits(8) for i in range(8))
+        data = self.append_opcode(0x1, token)
         data.append(0x2)
         return data
     
-    def bond_request_tx_message():
+    def bond_request_tx_message(self):
         return bytearray([0x7])
         
-    def disconnect_request_tx_message():
+    def disconnect_request_tx_message(self):
         return bytearray([0x9])
     
-    def keep_alive_tx_message(time):
-        return bytearray([0x6, byte(time)])
+    def keep_alive_tx_message(self, time):
+        return bytearray([0x6, time])
     
-    def sensor_tx_message():
+    def sensor_tx_message(self):
         return self.calc_crc_array(0x2e)
     
-    def time_tx_message():
+    def time_tx_message(self):
         return self.calc_crc_array(0x24)
     
-    def unbond_tx_message(time):
+    def unbond_tx_message(self):
         return bytearray([0x6])
     
     def append_opcode(self, opcode, value):
@@ -42,6 +45,14 @@ class messages():
         crcShort ^= ((crcShort & 0xFF) << 5) & 0xffff
         crcShort &= 0xffff
         return bytearray([b, (crcShort & 0xff), (crcShort >> 8)])
+        
+    def calculate_hash(self, data, serial):
+      secret_text = bytearray(data + data)
+      key = b"00{0}00{0}".format(serial)
+      
+      e = AES.new(key, AES.MODE_ECB)
+      print key
+      return e.encrypt(buffer(secret_text))
 
 class batteryMsg():
     UNKNOWN = 0
@@ -53,9 +64,9 @@ class batteryMsg():
         if code > 0x81:
             return self.BRICKED
         else:
-            if b == 0x81:
+            if code == 0x81:
                 return self.LOW
-            if b == 0x00:
+            if code == 0x00:
                 return self.OK
             else:
                 return self.UNKNOWN
@@ -91,7 +102,7 @@ class authChallengeRxMsg():
 class transRxMsg(batteryMsg):
     def __init__(self, packet):
         if (packet.count >= 10) and (packet[0] == 0x25):
-            self.status = getBatteryLevel(packet[1])
+            self.status = self.getBatteryLevel(packet[1])
             self.currentTime = packet[2]
             self.sessionStartTime = packet[6]
             
@@ -110,10 +121,10 @@ class transRxMsg(batteryMsg):
 class sensorRxMsg(batteryMsg):
     def __init__(self, packet):
         if (packet.count >= 14) and (packet[0] == 0x2f):
-            self.status = getBatteryLevel(packet[1])
+            self.status = self.getBatteryLevel(packet[1])
             self.timestamp = packet[2]
             self.unfiltered = packet[6]
-            self.filtered = packet[6]
+            self.filtered = packet[10]
             
     @property
     def status(self):
