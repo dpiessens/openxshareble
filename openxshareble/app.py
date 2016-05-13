@@ -82,7 +82,8 @@ class App (object):
             # but you can specify an optional timeout_sec parameter to change it).
             self.remote = UART.find_device()
           if self.remote is None:
-              raise RuntimeError('Failed to find UART device!')
+              print 'Failed to find UART device!'
+              return
       finally:
           # Make sure scanning is stopped before exiting.
           if self.adapter.is_scanning:
