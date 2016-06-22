@@ -22,7 +22,7 @@ class App (object):
     pass
   def setup_ble (self):
     # create console handler and set level to debug for diagnostics
-    ch = logging.StreamHandler()
+    ch = logging.StreamHandler(sys.stdout)
     ch.setLevel(logging.DEBUG)
     formatter = logging.Formatter('%(levelname)s - %(message)s')
     ch.setFormatter(formatter)
