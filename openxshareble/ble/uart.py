@@ -13,7 +13,7 @@ from messages import transRxMsg
 from messages import sensorRxMsg 
 
 class G5UART (ServiceBase):
-  ADVERTISED = [Attrs.Advertisement]
+  ADVERTISED = []
   SERVICES = [Attrs.CGMService]
   CHARACTERISTICS = [Attrs.Authentication, Attrs.Control, Attrs.Communication ]
 
