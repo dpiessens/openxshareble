@@ -82,8 +82,10 @@ class App (object):
       log.info('Searching for UART device...')
       try:
           if mac:
+            print 'I have a MAC: ' + mac
             self.remote = self.select_mac(mac=mac, serial=serial)
           else:
+            print 'Starting device scan...'
             self.adapter.start_scan()
             # Search for the first UART device found (will time out after 60 seconds
             # but you can specify an optional timeout_sec parameter to change it).
