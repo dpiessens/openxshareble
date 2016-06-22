@@ -151,7 +151,7 @@ class App (object):
                 hasMac = True
 
           known_uarts.update(new)
-          if (hasMac)
+          if hasMac:
             return known_uarts
           # Sleep for a second and see if new devices have appeared.
           time.sleep(1.0)
