@@ -21,6 +21,13 @@ class App (object):
     self.disconnect_on_after = kwds.get('disconnect_on_after', False)
     pass
   def setup_ble (self):
+    # create console handler and set level to debug for diagnostics
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.DEBUG)
+    formatter = logging.Formatter('%(levelname)s - %(message)s')
+    ch.setFormatter(formatter)
+    logger.addHandler(ch)
+
     self.remote = None
     self.ble = Adafruit_BluefruitLE.get_provider()
     # Initialize the BLE system.  MUST be called before other BLE calls!
