@@ -140,7 +140,7 @@ class App (object):
           # Call UART.find_devices to get a list of any UART devices that
           # have been found.  This call will quickly return results and does
           # not wait for devices to appear.
-          found = set(UART.list_devices())
+          found = set(UART.find_devices())
           # Check for new devices that haven't been seen yet and print out
           # their name and ID (MAC address on Linux, GUID on OSX).
           new = found - known_uarts
