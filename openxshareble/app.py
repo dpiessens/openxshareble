@@ -86,7 +86,7 @@ class App (object):
             # but you can specify an optional timeout_sec parameter to change it).
             self.remote = UART.find_device()
           if self.remote is None:
-              print 'Failed to find UART device!'
+              raise Error('Failed to find UART device!')
               return
       finally:
           # Make sure scanning is stopped before exiting.
@@ -124,7 +124,7 @@ class App (object):
         lastSerial = serial[-2:].upper()
         return lastId == lastSerial
         
-  def enumerate_dexcoms (self, timeout_secs=60):
+  def enumerate_dexcoms (self, timeout_secs=120):
     self.adapter.start_scan()
     # Use atexit.register to call the adapter stop_scan function before quiting.
     # This is good practice for calling cleanup code in this main function as
