@@ -54,7 +54,7 @@ class App (object):
         # Make sure device is disconnected on exit.
         if self.disconnect_on_after and (self.remote is not None):
           self.remote.disconnect()
-  def prolog (self, clear_cached_data=True, disconnect_devices=True, scan_devices=True, connect=True, mac=None, serial=None):
+  def prolog (self, clear_cached_data=True, disconnect_devices=False, scan_devices=True, connect=True, mac=None, serial=None):
     """
     Things to do before running the main part of the application.
     """
