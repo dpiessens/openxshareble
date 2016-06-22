@@ -26,7 +26,7 @@ class App (object):
     ch.setLevel(logging.DEBUG)
     formatter = logging.Formatter('%(levelname)s - %(message)s')
     ch.setFormatter(formatter)
-    logger.addHandler(ch)
+    log.addHandler(ch)
 
     self.remote = None
     self.ble = Adafruit_BluefruitLE.get_provider()
