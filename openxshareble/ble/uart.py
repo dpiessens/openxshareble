@@ -33,7 +33,7 @@ class G5UART (ServiceBase):
       print "paired?", r
       if not r:
         print "pairing ", device.id, "..."
-        device.pair( )
+        device.pair(120)
         print "paired"
         print device.advertised
         print "finding service"
