@@ -86,7 +86,7 @@ class App (object):
             # but you can specify an optional timeout_sec parameter to change it).
             self.remote = UART.find_device()
           if self.remote is None:
-              raise Error('Failed to find UART device!')
+              raise RuntimeError('Failed to find UART device!')
               return
       finally:
           # Make sure scanning is stopped before exiting.
@@ -125,35 +125,30 @@ class App (object):
         return lastId == lastSerial
         
   def enumerate_dexcoms (self, timeout_secs=120):
-    self.adapter.start_scan()
-    # Use atexit.register to call the adapter stop_scan function before quiting.
-    # This is good practice for calling cleanup code in this main function as
-    # a try/finally block might not be called since this is a background thread.
-    def maybe_stop ( ):
-      if self.adapter.is_scanning:
-        self.adapter.stop_scan( )
-    # atexit.register(maybe_stop)
-    print('Searching for UART devices for {0} seconds...'.format(timeout_secs))
-    # print('Press Ctrl-C to quit (will take ~30 seconds on OSX).')
-    # Enter a loop and print out whenever a new UART device is found.
-    start = time.time( )
-    now = time.time( )
+    start = time.time()
     known_uarts = set()
-    while (now - start) < timeout_secs:
-        # Call UART.find_devices to get a list of any UART devices that
-        # have been found.  This call will quickly return results and does
-        # not wait for devices to appear.
-        found = set(UART.find_devices())
-        # Check for new devices that haven't been seen yet and print out
-        # their name and ID (MAC address on Linux, GUID on OSX).
-        new = found - known_uarts
-        for device in new:
-            print('Found UART: {0} [{1}]'.format(str(device.id), self.parse_device_name(device)))
-        known_uarts.update(new)
-        # Sleep for a second and see if new devices have appeared.
-        time.sleep(1.0)
-        now = time.time( )
-    self.adapter.stop_scan( )
+    print('Searching for UART devices for {0} seconds...'.format(timeout_secs))
+        
+    while (time.time() - start) < timeout_secs:
+      self.adapter.start_scan()
+            
+      # Enter a loop and print out whenever a new UART device is found.
+      while (time.time() - start) < 30:
+          # Call UART.find_devices to get a list of any UART devices that
+          # have been found.  This call will quickly return results and does
+          # not wait for devices to appear.
+          found = set(UART.find_devices())
+          # Check for new devices that haven't been seen yet and print out
+          # their name and ID (MAC address on Linux, GUID on OSX).
+          new = found - known_uarts
+          for device in new:
+              print('Found UART: {0} [{1}]'.format(str(device.id), self.parse_device_name(device)))
+          known_uarts.update(new)
+          # Sleep for a second and see if new devices have appeared.
+          time.sleep(1.0)
+          now = time.time( )
+      self.adapter.stop_scan()
+      time.sleep(20.0)
     return known_uarts
 
   def epilog (self):
