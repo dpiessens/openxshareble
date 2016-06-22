@@ -88,7 +88,7 @@ class App (object):
             print 'Starting device scan...'
             print('Using adapter: {0}'.format(self.adapter.name))
             self.adapter.start_scan()
-            atexit.register(adapter.stop_scan)
+            atexit.register(self.adapter.stop_scan)
             # Search for the first UART device found (will time out after 60 seconds
             # but you can specify an optional timeout_sec parameter to change it).
             self.remote = UART.find_device()
