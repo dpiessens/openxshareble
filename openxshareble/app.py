@@ -148,6 +148,7 @@ class App (object):
               deviceId = str(device.id)
               print('Found UART: {0} [{1}]'.format(deviceId, self.parse_device_name(device)))
               if mac == deviceId:
+                print time.time()
                 hasMac = True
 
           known_uarts.update(new)
