@@ -1,6 +1,6 @@
 
 import Adafruit_BluefruitLE
-from Adafruit_BluefruitLE.services import UART as OriginalUART
+from Adafruit_BluefruitLE.services import ServiceBase
 import Queue
 import uuid
 import time
@@ -12,7 +12,7 @@ from messages import authChallengeRxMsg
 from messages import transRxMsg
 from messages import sensorRxMsg 
 
-class Share2UART (OriginalUART):
+class G5UART (ServiceBase):
   ADVERTISED = [Attrs.Advertisement]
   SERVICES = [Attrs.CGMService]
   CHARACTERISTICS = [Attrs.Authentication, Attrs.Control, Attrs.Communication ]
@@ -25,6 +25,7 @@ class Share2UART (OriginalUART):
   def __init__(self, device, **kwds):
       """Initialize UART from provided bluez device."""
       # Find the UART service and characteristics associated with the device.
+      print 'Adversisement: ', ADVERTISED
       self._uart = device.find_service(self.UART_SERVICE_UUID)
       print self._uart
       self._queue = Queue.Queue()
@@ -91,7 +92,4 @@ class Share2UART (OriginalUART):
     self.remainder.extend(spool[size:])
     return str(spool[:size])
   def pop (self, timeout_sec=None):
-    return super(Share2UART, self).read(timeout_sec=timeout_sec)
-
-class UART (Share2UART):
-  pass
+    return super(G5UART, self).read(timeout_sec=timeout_sec)

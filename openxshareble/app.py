@@ -2,7 +2,7 @@
 import Adafruit_BluefruitLE
 from Adafruit_BluefruitLE.services import UART as OriginalUART
 # from ble import uart
-from ble.uart import UART
+from ble.uart import G5UART as UART
 from ble.readdata import Device
 import time
 import atexit
