@@ -115,6 +115,7 @@ class App (object):
     for device in self.enumerate_dexcoms(**kwds):
       deviceStr = str(device.id)
       if (deviceStr == mac) or (self.match_ids(deviceStr, serial)):
+        print 'Device matches: ', deviceStr
         return device
         
   def match_ids(self, deviceId, serial):
