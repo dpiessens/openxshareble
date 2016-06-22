@@ -131,11 +131,11 @@ class App (object):
         
     while (time.time() - start) < timeout_secs:
       self.adapter.start_scan()
-            
+      print 'Active scanning:'      
       # Enter a loop and print out whenever a new UART device is found.
       nestStart = time.time()
       while (time.time() - nestStart) < 30:
-          print 'Active scanning:'
+          
           # Call UART.find_devices to get a list of any UART devices that
           # have been found.  This call will quickly return results and does
           # not wait for devices to appear.
