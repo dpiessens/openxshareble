@@ -6,8 +6,6 @@ from ble.uart import G5UART as UART
 from ble.readdata import Device
 import time
 import atexit
-import logging
-log = logging.getLogger(__name__)
 
 class App (object):
   """ A high level application object.
@@ -22,11 +20,6 @@ class App (object):
     pass
   def setup_ble (self):
     # create console handler and set level to debug for diagnostics
-    ch = logging.StreamHandler(sys.stdout)
-    ch.setLevel(logging.DEBUG)
-    formatter = logging.Formatter('%(levelname)s - %(message)s')
-    ch.setFormatter(formatter)
-    log.addHandler(ch)
 
     self.remote = None
     self.ble = Adafruit_BluefruitLE.get_provider()
@@ -35,7 +28,7 @@ class App (object):
     # Get the first available BLE network adapter and make sure it's powered on.
     self.adapter = self.ble.get_default_adapter()
     self.adapter.power_on()
-    log.info('Using adapter: {0}'.format(self.adapter.name))
+    print('Using adapter: {0}'.format(self.adapter.name))
     self.dexcom = None
     pass
   def setup_dexcom (self, serial=None, mac=None):
@@ -45,7 +38,7 @@ class App (object):
         # Wait for service discovery to complete for the UART service.  Will
         # time out after 60 seconds (specify timeout_sec parameter to override).
         # print device._device.GattServices
-        log.info('Discovering services...')
+        print('Discovering services...')
         UART.discover(self.remote)
 
         # Once service discovery is complete create an instance of the service
@@ -74,12 +67,12 @@ class App (object):
     if disconnect_devices:
       # Disconnect any currently connected UART devices.  Good for cleaning up and
       # starting from a fresh state.
-      log.info('Disconnecting any connected UART devices...')
+      print('Disconnecting any connected UART devices...')
       UART.disconnect_devices()
 
     if scan_devices:
       # Scan for UART devices.
-      log.info('Searching for UART device...')
+      print('Searching for UART device...')
       try:
           if mac:
             print 'I have a MAC: ' + mac
@@ -101,16 +94,16 @@ class App (object):
             self.adapter.stop_scan()
 
     if connect and not self.remote.is_connected:
-      log.info('Connecting to device...')
+      print('Connecting to device...')
       self.remote.connect()  # Will time out after 60 seconds, specify timeout_sec parameter
                         # to change the timeout.
-    log.info(self.parse_device_name(self.remote))
+    print(self.parse_device_name(self.remote))
     # device._device.Pair( )
-    log.info(self.ble._print_tree( ))
+    print(self.ble._print_tree( ))
     for service in self.remote.list_services( ):
-      log.info(service, service.uuid)
-    log.info("ADVERTISED")
-    log.info(self.remote.advertised)
+      print(service, service.uuid)
+    print("ADVERTISED")
+    print(self.remote.advertised)
 
     pass
   def parse_device_name(self, device):
@@ -154,7 +147,7 @@ class App (object):
         new = found - known_uarts
         for device in new:
             print('Found UART: {0} [{1}]'.format(str(device.id), self.parse_device_name(device)))
-            log.info('Found UART: {0} [{1}]'.format(device.id, device))
+            print('Found UART: {0} [{1}]'.format(device.id, device))
         known_uarts.update(new)
         # Sleep for a second and see if new devices have appeared.
         time.sleep(1.0)
