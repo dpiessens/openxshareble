@@ -104,7 +104,7 @@ class App (object):
       log.info('Connecting to device...')
       self.remote.connect()  # Will time out after 60 seconds, specify timeout_sec parameter
                         # to change the timeout.
-    log.info(self.remote.name)
+    log.info(self.parse_device_name(self.remote))
     # device._device.Pair( )
     log.info(self.ble._print_tree( ))
     for service in self.remote.list_services( ):
