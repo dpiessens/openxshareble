@@ -128,9 +128,10 @@ class App (object):
     start = time.time()
     known_uarts = set()
     print('Searching for UART devices for {0} seconds...'.format(timeout_secs))
+    self.adapter.start_scan()
         
     while (time.time() - start) < timeout_secs:
-      self.adapter.start_scan()
+      
       print 'Active scanning:'      
       # Enter a loop and print out whenever a new UART device is found.
       nestStart = time.time()
@@ -149,6 +150,7 @@ class App (object):
               print('Found UART: {0} [{1}]'.format(deviceId, self.parse_device_name(device)))
               if mac == deviceId:
                 print time.time()
+                self.adapter.stop_scan()
                 hasMac = True
 
           known_uarts.update(new)
@@ -157,9 +159,11 @@ class App (object):
           # Sleep for a second and see if new devices have appeared.
           time.sleep(1.0)
           now = time.time( )
-      self.adapter.stop_scan()
+      
       print 'Pausing for 20 sec...'
       time.sleep(20.0)
+
+    self.adapter.stop_scan()
     return known_uarts
 
   def epilog (self):
