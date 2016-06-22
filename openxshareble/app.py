@@ -132,7 +132,7 @@ class App (object):
       if self.adapter.is_scanning:
         self.adapter.stop_scan( )
     # atexit.register(maybe_stop)
-    print('Searching for UART devices...')
+    print('Searching for UART devices for {0} seconds...'.format(timeout_secs))
     # print('Press Ctrl-C to quit (will take ~30 seconds on OSX).')
     # Enter a loop and print out whenever a new UART device is found.
     start = time.time( )
@@ -148,7 +148,6 @@ class App (object):
         new = found - known_uarts
         for device in new:
             print('Found UART: {0} [{1}]'.format(str(device.id), self.parse_device_name(device)))
-            print('Found UART: {0} [{1}]'.format(device.id, device))
         known_uarts.update(new)
         # Sleep for a second and see if new devices have appeared.
         time.sleep(1.0)
