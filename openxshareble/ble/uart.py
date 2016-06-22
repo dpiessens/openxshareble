@@ -25,7 +25,6 @@ class G5UART (ServiceBase):
   def __init__(self, device, **kwds):
       """Initialize UART from provided bluez device."""
       # Find the UART service and characteristics associated with the device.
-      print 'Adversisement: ', ADVERTISED
       self._uart = device.find_service(self.UART_SERVICE_UUID)
       print self._uart
       self._queue = Queue.Queue()

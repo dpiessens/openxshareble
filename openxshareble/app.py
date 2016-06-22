@@ -75,7 +75,7 @@ class App (object):
       print('Searching for UART device...')
       try:
           if mac:
-            print 'I have a MAC: ' + mac
+            print('Searching for MAC: {0}'.format(mac))
             self.remote = self.select_mac(mac=mac, serial=serial)
           else:
             print 'Starting device scan...'
