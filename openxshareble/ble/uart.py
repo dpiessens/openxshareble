@@ -1,6 +1,6 @@
 
 import Adafruit_BluefruitLE
-from Adafruit_BluefruitLE.services import ServiceBase
+from Adafruit_BluefruitLE.services.servicebase import ServiceBase
 import Queue
 import uuid
 import time
