@@ -113,7 +113,7 @@ class App (object):
       return device.id
 
   def select_mac (self, mac=None, serial=None, **kwds):
-    for device in self.enumerate_dexcoms(**kwds):
+    for device in self.enumerate_dexcoms(mac, **kwds):
       deviceStr = str(device.id)
       if (deviceStr == mac) or (self.match_ids(deviceStr, serial)):
         print 'Device matches: ', deviceStr
@@ -124,7 +124,7 @@ class App (object):
         lastSerial = serial[-2:].upper()
         return lastId == lastSerial
         
-  def enumerate_dexcoms (self, timeout_secs=120):
+  def enumerate_dexcoms (self, mac=None, timeout_secs=120):
     start = time.time()
     known_uarts = set()
     print('Searching for UART devices for {0} seconds...'.format(timeout_secs))
@@ -135,6 +135,7 @@ class App (object):
       # Enter a loop and print out whenever a new UART device is found.
       nestStart = time.time()
       while (time.time() - nestStart) < 30:
+          print 'Active scanning:'
           # Call UART.find_devices to get a list of any UART devices that
           # have been found.  This call will quickly return results and does
           # not wait for devices to appear.
@@ -142,14 +143,21 @@ class App (object):
           # Check for new devices that haven't been seen yet and print out
           # their name and ID (MAC address on Linux, GUID on OSX).
           new = found - known_uarts
+          hasMac = False
           for device in new:
-              print('Found UART: {0} [{1}]'.format(str(device.id), self.parse_device_name(device)))
+              deviceId = str(device.id)
+              print('Found UART: {0} [{1}]'.format(deviceId, self.parse_device_name(device)))
+              if mac == deviceId:
+                hasMac = True
+
           known_uarts.update(new)
+          if (hasMac)
+            return known_uarts
           # Sleep for a second and see if new devices have appeared.
           time.sleep(1.0)
           now = time.time( )
       self.adapter.stop_scan()
-      print "pausing for 20 sec..."
+      print 'Pausing for 20 sec...'
       time.sleep(20.0)
     return known_uarts
 
