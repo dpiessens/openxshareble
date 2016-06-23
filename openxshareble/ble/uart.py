@@ -32,10 +32,6 @@ class G5UART (ServiceBase):
       self.serial = kwds.pop('SERIAL', None)
       print "paired?", r
       if not r:
-        print "pairing ", device.id, "..."
-        device.pair(120)
-        print "paired"
-        print device.advertised
         print "finding service"
         self._uart = device.find_service(self.UART_SERVICE_UUID)
         print "SERVICE", self._uart
